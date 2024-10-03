@@ -28,7 +28,10 @@ class LoginActivity : ComponentActivity() {
             } else {
                 // Add logic to check email and password (authentication)
                 Toast.makeText(this, "Logged in!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginUserActivity::class.java)
+                startActivity(intent)
             }
+
         }
 
         // Navigate to Sign Up Activity
