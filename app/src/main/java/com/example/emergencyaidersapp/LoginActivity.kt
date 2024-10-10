@@ -6,37 +6,52 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import com.example.emergencyaidersapp.database.DatabaseHelper
+//import com.example.emergencyaidersapp.database.com.example.emergencyaidersapp.UserActivity
 
 class LoginActivity : ComponentActivity() {
+
+    private lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val loginEmail: EditText = findViewById(R.id.loginEmail)
-        val loginPassword: EditText = findViewById(R.id.loginPassword)
+        databaseHelper = DatabaseHelper(this)
+
+        val usernameEditText: EditText = findViewById(R.id.loginUsernameEditText)
+        val passwordEditText: EditText = findViewById(R.id.loginPasswordEditText)
         val loginButton: Button = findViewById(R.id.loginButton)
-        val signupButton: Button = findViewById(R.id.signupButton)
 
-        // Handle login button click
         loginButton.setOnClickListener {
-            val email = loginEmail.text.toString()
-            val password = loginPassword.text.toString()
+            val username = usernameEditText.text.toString()
+            val password = passwordEditText.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please fill in both username and password", Toast.LENGTH_SHORT).show()
             } else {
-                // Add logic to check email and password (authentication)
-                Toast.makeText(this, "Logged in!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, LoginUserActivity::class.java)
-                startActivity(intent)
+                val isUserValid = databaseHelper.checkUser(username, password)
+                if (isUserValid) {
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+                    // Check if user is an aider or regular user
+                    navigateToCorrectActivity(username)
+                } else {
+                    Toast.makeText(this, "Incorrect username or password", Toast.LENGTH_SHORT).show()
+                }
             }
-
         }
+    }
 
-        // Navigate to Sign Up Activity
-        signupButton.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
+    private fun navigateToCorrectActivity(username: String) {
+        // Assuming we have a way to differentiate between User and Aider
+        // Here we simply check based on username, but ideally, you'd store user roles in the database.
+
+        // For example, if the username contains "aider", treat it as an Aider
+        if (username.contains("aider", ignoreCase = true)) {
+            val intent = Intent(this, AiderActivity::class.java)
+            startActivity(intent)
+        } else {
+            val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
     }

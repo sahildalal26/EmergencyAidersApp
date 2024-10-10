@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.google.play.services.location)
     implementation(libs.google.android.gms.maps)
+    //implementation (libs.google.android.gms:play-services-maps:18.0.2)
+
 
     //implementation(libs.androidx.constraintlayout)
    // implementation(libs.google.android.material)

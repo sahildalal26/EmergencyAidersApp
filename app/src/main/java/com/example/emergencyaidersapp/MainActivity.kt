@@ -11,27 +11,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Buttons from XML
-        val btnLogin = findViewById<Button>(R.id.btnLogin)
-        val btnSignUpUser = findViewById<Button>(R.id.btnSignUpUser)
-        val btnSignUpAider = findViewById<Button>(R.id.btnSignUpAider)
+        val loginButton: Button = findViewById(R.id.loginButton)
+        val signUpAiderButton: Button = findViewById(R.id.signUpAiderButton)
+        val signUpUserButton: Button = findViewById(R.id.signUpUserButton)
 
-        // Login button clicked - go to LoginActivity
-        btnLogin.setOnClickListener {
+        // Navigate to Login Activity
+        loginButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        // Sign up as a user - go to SignUpActivity for users
-        btnSignUpUser.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
+        // Navigate to Sign Up Aider Activity
+        signUpAiderButton.setOnClickListener {
+            val intent = Intent(this, SignUpAiderActivity::class.java)
             startActivity(intent)
         }
 
-        // Sign up as a first aider - go to SignUpActivity for first aiders
-       // btnSignUpAider.setOnClickListener {
-            //val intent = Intent(this, SignUpAiderActivity::class.java)
-           // startActivity(intent)
-       // }
+        // Navigate to Sign Up User Activity
+        signUpUserButton.setOnClickListener {
+            val intent = Intent(this, SignUpUserActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

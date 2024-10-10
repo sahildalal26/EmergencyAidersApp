@@ -6,23 +6,30 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/loginUsernameEditText"
+        android:id="@+id/userUsernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/loginPasswordEditText"
+        android:id="@+id/userPasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword" />
 
+    <EditText
+        android:id="@+id/userMedicalConditionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pre-existing Medical Condition"
+        android:inputType="textMultiLine" />
+
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/userSignUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In"
+        android:text="Sign Up"
         android:layout_marginTop="16dp" />
 </LinearLayout>
