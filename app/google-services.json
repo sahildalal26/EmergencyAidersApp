@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65195515438",
+    "project_id": "emergencyaidersapp",
+    "storage_bucket": "emergencyaidersapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65195515438:android:8ca05539be15a873a809bf",
+        "android_client_info": {
+          "package_name": "com.example.emergencyaidersapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFclnSC2e5kxvdxb6YnAbDhBdgyZC-3-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

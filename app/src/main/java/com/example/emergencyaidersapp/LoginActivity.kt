@@ -6,53 +6,79 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.emergencyaidersapp.database.DatabaseHelper
-//import com.example.emergencyaidersapp.database.com.example.emergencyaidersapp.UserActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : ComponentActivity() {
 
-    private lateinit var databaseHelper: DatabaseHelper
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: Button
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        databaseHelper = DatabaseHelper(this)
+        auth = FirebaseAuth.getInstance()
 
-        val usernameEditText: EditText = findViewById(R.id.loginUsernameEditText)
-        val passwordEditText: EditText = findViewById(R.id.loginPasswordEditText)
-        val loginButton: Button = findViewById(R.id.loginButton)
+        emailEditText = findViewById(R.id.loginEmailEditText)
+        passwordEditText = findViewById(R.id.loginPasswordEditText)
+        loginButton = findViewById(R.id.loginButton)
 
         loginButton.setOnClickListener {
-            val username = usernameEditText.text.toString()
+            val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill in both username and password", Toast.LENGTH_SHORT).show()
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(email, password)
             } else {
-                val isUserValid = databaseHelper.checkUser(username, password)
-                if (isUserValid) {
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                    // Check if user is an aider or regular user
-                    navigateToCorrectActivity(username)
-                } else {
-                    Toast.makeText(this, "Incorrect username or password", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this, "Please fill in both fields", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun navigateToCorrectActivity(username: String) {
-        // Assuming we have a way to differentiate between User and Aider
-        // Here we simply check based on username, but ideally, you'd store user roles in the database.
+    private fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    checkUserRole(auth.currentUser?.uid ?: return@addOnCompleteListener)
+                } else {
+                    Toast.makeText(this, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
 
-        // For example, if the username contains "aider", treat it as an Aider
-        if (username.contains("aider", ignoreCase = true)) {
-            val intent = Intent(this, AiderActivity::class.java)
-            startActivity(intent)
-        } else {
-            val intent = Intent(this, UserActivity::class.java)
-            startActivity(intent)
+    private fun checkUserRole(userId: String) {
+        val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+        val aiderRef = FirebaseDatabase.getInstance().getReference("Aiders").child(userId)
+
+        // Check if user exists in the 'users' node
+        userRef.get().addOnSuccessListener { userSnapshot ->
+            if (userSnapshot.exists()) {
+                // User found in the users node
+                val intent = Intent(this, UserActivity::class.java)
+                startActivity(intent)
+                finish() // Close the LoginActivity
+            } else {
+                // Check if user exists in the 'aiders' node
+                aiderRef.get().addOnSuccessListener { aiderSnapshot ->
+                    if (aiderSnapshot.exists()) {
+                        // User found in the aiders node
+                        val intent = Intent(this, AiderActivity::class.java)
+                        startActivity(intent)
+                        finish() // Close the LoginActivity
+                    } else {
+                        // User not found in either node
+                        Toast.makeText(this, "User not found.", Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Failed to check Aider role.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.addOnFailureListener {
+            // Handle failure to retrieve data
+            Toast.makeText(this, "Failed to check User role.", Toast.LENGTH_SHORT).show()
         }
     }
 }
