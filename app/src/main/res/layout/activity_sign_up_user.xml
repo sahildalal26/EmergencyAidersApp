@@ -6,11 +6,23 @@
     android:padding="16dp">
 
     <EditText
+        android:id="@+id/userNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name" />
+
+    <EditText
+        android:id="@+id/userAgeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+        android:inputType="number" />
+
+    <EditText
         android:id="@+id/userUsernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
-        android:inputType="text" />
+        android:hint="Username" />
 
     <EditText
         android:id="@+id/userPasswordEditText"
@@ -19,12 +31,16 @@
         android:hint="Password"
         android:inputType="textPassword" />
 
+    <Spinner
+        android:id="@+id/userGenderSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/userMedicalConditionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pre-existing Medical Condition"
-        android:inputType="textMultiLine" />
+        android:hint="Medical Condition" />
 
     <Button
         android:id="@+id/userSignUpButton"

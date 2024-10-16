@@ -12,18 +12,29 @@
         android:hint="Name" />
 
     <EditText
-        android:id="@+id/aiderEmailEditText"
+        android:id="@+id/aiderUsernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:hint="Username" />
 
     <EditText
-        android:id="@+id/aiderPhoneEditText"
+        android:id="@+id/aiderPasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        android:inputType="phone" />
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/aiderAgeEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+        android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/aiderGenderSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/uploadCertificateButton"
@@ -33,9 +44,9 @@
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/aiderSignUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="Sign Up"
         android:layout_marginTop="16dp" />
 </LinearLayout>
